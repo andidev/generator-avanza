@@ -11,8 +11,8 @@ module.exports = yeoman.Base.extend({
     ));
 
     const APPLICATION_TYPE = {
-      SPRING_ANGULAR_1 : "Spring Angular 1",
-      SPRING_ANGULAR_2 : "Spring Angular 2"
+      SPRING_ANGULAR_1: "Spring Angular 1",
+      SPRING_ANGULAR_2: "Spring Angular 2"
     };
 
     var prompts = [{
@@ -27,19 +27,29 @@ module.exports = yeoman.Base.extend({
     }];
 
     return this.prompt(prompts).then(function (props) {
+      switch (props.applicationType) {
+        case APPLICATION_TYPE.SPRING_ANGULAR_1:
+          this.composeWith("avanza:spring-angular-1", {
+            options: {
+              "skip-greeting": true
+            }
+          }, {
+            local: require.resolve("./../spring-angular-1")
+          });
+          break;
+        case APPLICATION_TYPE.SPRING_ANGULAR_2:
+          this.composeWith("avanza:spring-angular-2", {
+            options: {
+              "skip-greeting": true
+            }
+          }, {
+            local: require.resolve("./../spring-angular-2")
+          });
+          break;
+      }
+
       // To access props later use this.props.someAnswer;
       this.props = props;
     }.bind(this));
   },
-
-  writing: function () {
-    this.fs.copy(
-      this.templatePath('dummyfile.txt'),
-      this.destinationPath('dummyfile.txt')
-    );
-  },
-
-  install: function () {
-    this.installDependencies();
-  }
 });

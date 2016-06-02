@@ -4,16 +4,29 @@ var chalk = require('chalk');
 var yosay = require('yosay');
 
 module.exports = yeoman.Base.extend({
+  constructor: function () {
+    yeoman.Base.apply(this, arguments);
+
+    // This adds support for a `--skip-greeting` flag
+    this.option('skip-greeting', {
+      desc: 'Skip greeting',
+      type: Boolean,
+      defaults: false
+    });
+  },
+
   prompting: function () {
-    // Have Yeoman greet the user.
-    this.log(yosay(
-      'Welcome to the mathematical ' + chalk.red('generator-avanza') + ' generator!'
-    ));
+
+    if (!this.options['skip-greeting']) {
+      this.log(yosay(
+        'Welcome to the gnarly ' + chalk.red('Avanza Yeoman') + ' generator!'
+      ));
+    }
 
     var prompts = [{
       type: 'confirm',
       name: 'someAnswer',
-      message: 'Would you like to enable this option?',
+      message: 'Some spring angular 2 question?',
       default: true
     }];
 
@@ -24,13 +37,12 @@ module.exports = yeoman.Base.extend({
   },
 
   writing: function () {
-    this.fs.copy(
-      this.templatePath('dummyfile.txt'),
-      this.destinationPath('dummyfile.txt')
-    );
+    this.fs.copy(this.templatePath('dummyfile.txt'), this.destinationPath('dummyfile.txt'));
   },
 
   install: function () {
-    this.installDependencies();
+    this.installDependencies({
+      bower: false
+    });
   }
 });
