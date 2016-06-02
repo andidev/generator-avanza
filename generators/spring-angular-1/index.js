@@ -7,6 +7,8 @@ module.exports = yeoman.Base.extend({
   constructor: function () {
     yeoman.Base.apply(this, arguments);
 
+    this.templateContext = {};
+
     // This adds support for a `--skip-greeting` flag
     this.option('skip-greeting', {
       desc: 'Skip greeting',
@@ -30,14 +32,14 @@ module.exports = yeoman.Base.extend({
       default: true
     }];
 
-    return this.prompt(prompts).then(function (props) {
-      // To access props later use this.props.someAnswer;
-      this.props = props;
+    return this.prompt(prompts).then(function (answers) {
+      this.templateContext.someAnswer = answers.someAnswer;
     }.bind(this));
   },
 
   writing: function () {
     this.fs.copy(this.templatePath('dummyfile.txt'), this.destinationPath('dummyfile.txt'));
+    this.fs.copyTpl(this.templatePath('templatefile.txt'), this.destinationPath('templatefile.txt'), this.templateContext);
   },
 
   install: function () {
