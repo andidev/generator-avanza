@@ -7,13 +7,22 @@ module.exports = yeoman.Base.extend({
   prompting: function () {
     // Have Yeoman greet the user.
     this.log(yosay(
-      'Welcome to the tremendous ' + chalk.red('generator-avanza') + ' generator!'
+      'Welcome to the tremendous ' + chalk.red('Avanza Yeoman') + ' generator!'
     ));
 
+    const APPLICATION_TYPE = {
+      SPRING_ANGULAR_1 : "Spring Angular 1",
+      SPRING_ANGULAR_2 : "Spring Angular 2"
+    };
+
     var prompts = [{
-      type: 'confirm',
-      name: 'someAnswer',
-      message: 'Would you like to enable this option?',
+      type: 'list',
+      name: 'applicationType',
+      message: 'What type of application do you want to genarate?',
+      choices: [
+        APPLICATION_TYPE.SPRING_ANGULAR_1,
+        APPLICATION_TYPE.SPRING_ANGULAR_2
+      ],
       default: true
     }];
 
